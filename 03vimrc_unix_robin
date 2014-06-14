@@ -1,0 +1,1088 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Robin
+" 2008/11/18 21:51:30
+" Tip:
+" If you find anything that you can't understand than do this:
+" help keyword OR helpgrep keywords
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => When started as "evim", evim will not do these settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if v:progname =~? "evim"
+	finish
+endif
+
+"autocmd!
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Local Variable
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let head_flag=1
+let copen_flag=0
+let nowrap_flag=0
+let xxd_flag=0
+let virtual_flag=0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Setting VIM and VIMRUNTIME
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	let $VIM        = "D:\\Program Files\\vim\\vim72"
+	let $VIMRUNTIME = "D:\\Program Files\\vim\\vim72"
+	let $VIMRC      = "D:\\Program Files\\vim\\_vimrc"
+	let $DESKTOP    = $USERPROFILE."\\×ÀÃæ"
+elseif has("unix")
+	let $VIM        = $HOME."/vim73/local"
+	let $VIMRUNTIME = $HOME."/vim73/local/share/vim/vim73"
+	let $VIMRC      = $HOME."/.vimrc"
+	let $DESKTOP    = $HOME
+else
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Setting encodings
+" => Vim ÖğÒ»Ì½²â¼´½«´ò¿ªµÄÎÄ¼şµÄ×Ö·û±àÂë·½Ê½
+" => Vim ÄÚ²¿Ê¹ÓÃµÄ×Ö·û±àÂë·½Ê½: encoding
+" => Vim ÖĞµ±Ç°±à¼­µÄÎÄ¼şµÄ×Ö·û±àÂë·½Ê½: fileencoding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+
+set encoding=utf-8
+"language messages zh_CN.utf-8
+"set printencoding=cp936
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => termencoding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if v:lang =~ "^zh_CN"
+	"et termencoding=cp936
+elseif v:lang =~ "^zh_TW"
+	set termencoding=big5
+elseif v:lang =~ "^ko"
+	set termencoding=euc-kr
+elseif v:lang =~ "^ja_JP"
+	set termencoding=euc-jp
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Reload menu
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	source $VIMRUNTIME/delmenu.vim
+	set langmenu=zh_CN.UTF-8
+	source $VIMRUNTIME/menu.vim
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Last cursor position
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufReadPost *
+			\ if line("'\"") > 0 && line ("'\"") <= line("$") |
+			\ exe "normal g'\"" |
+			\ endif |
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Choose binary mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nobin
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Choose VI's compatible mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set begin path
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32") && has("gui_running")
+	cd $DESKTOP
+elseif has("unix")
+elseif has("mac")
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set path
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	set path=.,,
+elseif has("unix")
+	set path=.,/usr/local/include,/usr/include
+	set path+=~/icsServer/include
+elseif has("mac")
+	set path=.,/emx/local/include
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set shell
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	set shell=cmd
+elseif has("unix")
+	set shell=ksh
+elseif has("mac")
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set tags file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	set tags+=$PROGRAMFILES\IDM\\\ Computer\\\ Solutions\UltraEdit-32\tags.lst
+elseif has("unix")
+	set tags+=$HOME/tags
+elseif has("mac")
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Special operation for OS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	"source $VIMRUNTIME/mswin.vim
+	behave mswin
+elseif has("unix")
+	behave xterm
+elseif has("mac")
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Sets how many lines of history VIM has to remember
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set history=100
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Choose help language
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set helplang=en
+set helplang=cn
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Enable filetype plugin
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype plugin on
+filetype indent on
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set to auto read when a file is changed from the outside
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set autoread
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Term colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	set t_Co=16
+elseif has("unix")
+	set t_Co=8
+elseif has("mac")
+endif
+
+
+if &term =~ "xterm"
+	if has("terminfo")
+		set t_Co=8
+		set t_Sf=[3%p1%dm
+		set t_Sb=[4%p1%dm
+	else
+		set t_Co=8
+		set t_Sf=[3%dm
+		set t_Sb=[4%dm
+	endif
+endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Have the mouse enabled in gui mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	set mousehide
+	set mouse=a
+else
+	set t_Sf=[3%p1%dm
+	set t_Sb=[4%p1%dm
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => When vimrc is saved, reload it
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"autocmd! bufwritepost _vimrc source $VIMRC
+"autocmd! bufwritepost .vimrc source $VIMRC
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Define function keys
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <F1>
+			\ :if (!head_flag)<CR>
+			\     set nu foldcolumn=2<CR>let head_flag=1<CR>
+			\ else<CR>
+			\     set nonu foldcolumn=0<CR>let head_flag=0<CR>
+			\ endif<CR><CR>
+map <F2>
+			\ :if (!copen_flag)<CR>
+			\     copen<CR>let copen_flag=1<CR>
+			\ else<CR>
+			\     close<CR>let copen_flag=0<CR>
+			\ endif<CR><CR>
+map <F3>
+			\ :if (!nowrap_flag)<CR>
+			\     set nowrap<CR>let nowrap_flag=1<CR>
+			\ else<CR>
+			\     set wrap<CR>let nowrap_flag=0<CR>
+			\ endif<CR><CR>
+map <F4>
+			\ :if (!virtual_flag)<CR>
+			\     set virtualedit=all<CR>let virtual_flag=1<CR>
+			\ else<CR>
+			\     set virtualedit=<CR>let virtual_flag=0<CR>
+			\ endif<CR><CR>
+map <F5>
+			\ :if (!xxd_flag)<CR>
+			\     mark x<CR>%!xxd<CR>let xxd_flag=1<CR>
+			\ else<CR>
+			\     %!xxd -r<CR>let xxd_flag=0<CR>exe "normal g'x"<CR>
+			\ endif<CR><CR>
+map <F11>
+			\ :let tmpencoding=&fileencoding<CR>
+			\ :if (tmpencoding != "cp936") && (tmpencoding != "utf-8")<CR>
+			\     exe "set fileencoding="."utf-8"<CR>
+			\     w<CR>
+			\ endif<CR>
+			\ :if (&encoding == "utf-8")<CR>
+			\     set encoding=cp936<CR>
+			\     language messages zh_CN<CR>
+			\     edit %:p<CR>
+			\ endif<CR>
+			\ :hardcopy<CR>
+			\ :if (&encoding == "cp936")<CR>
+			\     set encoding=utf-8<CR>
+			\     language messages zh_CN.utf-8<CR>
+			\     edit %:p<CR>
+			\ endif<CR>
+			\ :if (tmpencoding != "cp936") && (tmpencoding != "utf-8")<CR>
+			\     exe "set fileencoding=".tmpencoding<CR>
+			\     w<CR>
+			\ endif<CR>
+map <F12>
+			\ :echo "
+			\ <F1> : line head info\n
+			\ <F2> : copen window\n
+			\ <F3> : wrap settings\n
+			\ <F4> : virtual edit\n
+			\ <F5> : xxd file\n
+			\ <F6> : \n
+			\ <F7> : \n
+			\ <F8> : \n
+			\ <F9> : \n
+			\ <F10>: \n
+			\ <F11>: hardcopy\n
+			\ <F12>: help message\n
+			\ "<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Gui settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Enable syntax highlight
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+"syntax on
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set font in gui mode and print mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32") && has("gui_running")
+	"set guifont=Fixedsys:cGB2312
+	"set guifont=ĞÂËÎÌå:h10:cGB2312
+	set guifont=yaheimono:h10:cGB2312
+	"start gvim maximized
+	autocmd GUIEnter * simalt ~x
+elseif has("unix") && has("gui_running")
+	set guifont=Monospace\ 11
+elseif has("mac") && has("gui_running")
+	set guifont=Bitstream\ Vera\ Sans\ Mono:h12
+endif
+
+"set printfont=Fixedsys:cGB2312
+"set printfont=ĞÂËÎÌå:h10:cGB2312
+set printfont=yaheimono:h10:cGB2312
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set windows in gui mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	set guioptions-=T	"¹¤¾ßÀ¸
+	"set guioptions-=m	"²Ëµ¥À¸
+	"set guioptions-=l	"×ó¹ö¶¯Ìõ
+	"set guioptions-=L	"´¹Ö±·Ö¸î´°¿ÚµÄ×ó¹ö¶¯Ìõ
+	"set guioptions-=r	"ÓÒ¹ö¶¯Ìõ
+	"set guioptions-=R	"´¹Ö±·Ö¸î´°¿ÚµÄÓÒ¹ö¶¯Ìõ
+	"set guioptions-=b	"Ë®Æ½¹ö¶¯Ìõ
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set color schema
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+highlight clear
+
+if has("gui_running")
+	"GUI
+	"======================================================================================================================="
+	hi        Cursor         guifg=#000000          guibg=#00FF00           gui=NONE        "¹â±êËùÔÚµÄ×Ö·û
+	hi        CursorColumn                          guibg=#000000           gui=NONE        "¹â±êËùÔÚµÄÆÁÄ»ÁĞ
+	hi        CursorLine                            guibg=#101010           gui=NONE        "¹â±êËùÔÚµÄÆÁÄ»ĞĞ
+	hi        Directory      guifg=#FF3F3F          guibg=#000000           gui=NONE        "Ä¿Â¼Ãû
+	hi        DiffAdd                               guibg=#7F7F00           gui=NONE        "diff: Ôö¼ÓµÄĞĞ
+	hi        ErrorMsg       guifg=#FF3F3F          guibg=#000000           gui=NONE        "ÃüÁîĞĞÉÏµÄ´íÎóĞÅÏ¢
+	hi        VertSplit      guifg=#FF3F3F          guibg=#3F3FFF           gui=NONE        "·ÖÀë´¹Ö±·Ö¸î´°¿ÚµÄÁĞ
+	hi        Folded         guifg=#7FFF00          guibg=#7F7F00           gui=NONE        "ÓÃÓÚ¹Ø±ÕµÄÕÛµşµÄĞĞ
+	hi        IncSearch      guifg=#FFFF00          guibg=#0000FF           gui=NONE        "'incsearch' ¸ßÁÁ
+	hi        LineNr         guifg=#FFFF00          guibg=#000000           gui=NONE        "ÖÃÎ» number Ñ¡ÏîÊ±µÄĞĞºÅ
+	hi        MatchParen     guifg=#FF7F3F          guibg=#000000           gui=NONE        "Åä¶ÔµÄÀ¨ºÅ
+	hi        MatchParen     guifg=#FFFF00          guibg=#FF0000           gui=NONE        "Åä¶ÔµÄÀ¨ºÅ
+	hi        ModeMsg        guifg=#FF7F00          guibg=#000000           gui=NONE        "showmode ÏûÏ¢(INSERT)
+	hi        MoreMsg        guifg=#BFBF3F          guibg=#000000           gui=NONE        "|more-prompt|
+	hi        Normal         guifg=#BFBFBF          guibg=#000000           gui=NONE        "Õı³£ÄÚÈİ
+	hi        Pmenu          guifg=#FFFFFF          guibg=#3F3FFF           gui=NONE        "µ¯³ö²Ëµ¥ÆÕÍ¨ÏîÄ¿
+	hi        PmenuSel       guifg=#FFFF00          guibg=#FF3F3F           gui=NONE        "µ¯³ö²Ëµ¥Ñ¡ÖĞÏîÄ¿
+	hi        PmenuSbar      guifg=#3F3FFF          guibg=#000000           gui=NONE        "µ¯³ö²Ëµ¥¹ö¶¯Ìõ¡£
+	hi        PmenuThumb     guifg=#000000          guibg=#3FFF3F           gui=NONE        "µ¯³ö²Ëµ¥¹ö¶¯ÌõµÄÄ´Ö¸
+	hi        Question       guifg=#7F7F7F          guibg=#000000           gui=NONE        "ÌáÊ¾ºÍ yes/no ÎÊÌâ
+	hi        Search         guifg=#FFFF00          guibg=#0000FF           gui=NONE        "×î½üËÑË÷Ä£Ê½µÄ¸ßÁÁ
+	hi        SpecialKey     guifg=#FF7F00          guibg=#000000           gui=NONE        "ÌØÊâ¼ü£¬×Ö·ûºÍ'listchars'
+	hi        SpellBad       guifg=#FF0000          guibg=#000000           gui=NONE        "Æ´Ğ´¼ì²éÆ÷²»ÄÜÊ¶±ğµÄµ¥´Ê
+	hi        SpellCap       guifg=#BF0000          guibg=#000000           gui=NONE        "Ó¦¸Ã´óĞ´×ÖÄ¸¿ªÍ·µÄµ¥´Ê
+	hi        SpellLocal     guifg=#FF00FF          guibg=#000000           gui=NONE        "Ö»ÔÚÆäËüÇøÓòÊ¹ÓÃµÄµ¥´Ê
+	hi        SpellRare      guifg=#FF7FFF          guibg=#000000           gui=NONE        "ºÜÉÙÊ¹ÓÃµÄµ¥´Ê
+	hi        StatusLine     guifg=#FFFF00          guibg=#0000FF           gui=NONE        "µ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+	hi        StatusLineNC   guifg=#FFFFFF          guibg=#3F3F3F           gui=NONE        "·Çµ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+	hi        TabLine        guifg=#000000          guibg=#BFBFBF           gui=NONE        "·Ç»î¶¯±êÇ©Ò³±êÇ©
+	hi        TabLineFill    guifg=#000000          guibg=#FFFFFF           gui=NONE        "Ã»ÓĞ±êÇ©µÄµØ·½
+	hi        TabLineSel     guifg=#FFFF00          guibg=#0000FF           gui=NONE        "»î¶¯±êÇ©Ò³±êÇ©
+	hi        Visual         guifg=#FFFF00          guibg=#0000FF           gui=NONE        "¿ÉÊÓÄ£Ê½µÄÑ¡ÔñÇø
+	hi        WarningMsg     guifg=#FF003F          guibg=#000000           gui=NONE        "¾¯¸æÏûÏ¢
+	hi        WildMenu       guifg=#FF7F00          guibg=#0000FF           gui=NONE        "wildmenu²¹È«µÄµ±Ç°Æ¥Åä
+	"======================================================================================================================="
+	"GUI group-name
+	"======================================================================================================================="
+	hi        Comment        guifg=#7F7FFF          guibg=#000000           gui=NONE        "ÈÎºÎ×¢ÊÍ
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        String         guifg=#FF7F7F          guibg=#000000           gui=NONE        "Ò»¸ö×Ö·û´®³£Êı: "×Ö·û´®"
+	hi        Character      guifg=#FF3F3F          guibg=#000000           gui=NONE        "Ò»¸ö×Ö·û³£Êı: 'c'¡¢'\n'
+	hi        Number         guifg=#FF7F3F          guibg=#000000           gui=NONE        "Ò»¸öÊı×Ö³£Êı: 234¡¢0xff
+	hi        Float          guifg=#FF7F3F          guibg=#000000           gui=NONE        "Ò»¸ö¸¡µã³£Êı: 2.3e10
+	hi        Boolean        guifg=#FF0000          guibg=#000000           gui=NONE        "Ò»¸ö²¼¶ûĞÍ³£Êı: TRUE¡¢false
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Function       guifg=#00BFBF          guibg=#000000           gui=NONE        "º¯ÊıÃû (Ò²°üÀ¨: ÀàµÄ·½·¨Ãû)
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Statement      guifg=#FFFF7F          guibg=#000000           gui=NONE        "ÈÎºÎÓï¾ä
+	hi        Conditional    guifg=#FFFF00          guibg=#000000           gui=NONE        "if¡¢then¡¢else¡¢endif¡¢switch
+	hi        Repeat         guifg=#FFBF00          guibg=#000000           gui=NONE        "for¡¢do¡¢while µÈ
+	hi        Label          guifg=#FF7F00          guibg=#000000           gui=NONE        "case¡¢default µÈ
+	hi        Operator       guifg=#BFFF00          guibg=#000000           gui=NONE        ""sizeof"¡¢"+"¡¢"*" µÈ
+	hi        Keyword        guifg=#BFBF00          guibg=#000000           gui=NONE        "ÈÎºÎÆäËü¹Ø¼ü×Ö
+	hi        Exception      guifg=#BF7F00          guibg=#000000           gui=NONE        "try¡¢catch¡¢throw
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        PreProc        guifg=#FF63FF          guibg=#000000           gui=NONE        "Í¨ÓÃÔ¤´¦ÀíÃüÁî
+	hi        Include        guifg=#FF00FF          guibg=#000000           gui=NONE        "Ô¤´¦ÀíÃüÁî #include
+	hi        Define         guifg=#BF3FBF          guibg=#000000           gui=NONE        "Ô¤´¦ÀíÃüÁî #define
+	hi        Macro          guifg=#7F00BF          guibg=#000000           gui=NONE        "µÈÍ¬ÓÚ Define
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Type           guifg=#00FF00          guibg=#000000           gui=NONE        "int¡¢long¡¢char µÈ
+	hi        StorageClass   guifg=#7FFF00          guibg=#000000           gui=NONE        "static¡¢register¡¢volatile µÈ
+	hi        Structure      guifg=#00FF7F          guibg=#000000           gui=NONE        "struct¡¢union¡¢enum µÈ
+	hi        Typedef        guifg=#3FFF3F          guibg=#000000           gui=NONE        "Ò»¸ö typedef
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Special        guifg=#BFBF3F          guibg=#000000           gui=NONE        "ÈÎºÎÌØÊâ·ûºÅ
+	hi        SpecialChar    guifg=#FFBF3F          guibg=#000000           gui=NONE        "³£ÊıÖĞµÄÌØÊâ×Ö·û
+	hi        Tag            guifg=#BFFF3F          guibg=#000000           gui=NONE        "ÕâÀï¿ÉÒÔÊ¹ÓÃ CTRL-]
+	hi        Delimiter      guifg=#FF3F00          guibg=#000000           gui=NONE        "ĞèÒª×¢ÒâµÄ×Ö·û
+	hi        SpecialComment guifg=#FF00BF          guibg=#000000           gui=NONE        "×¢ÊÍÀïµÄÌØÊâ×Ö·û
+	hi        Debug          guifg=#BF00FF          guibg=#000000           gui=NONE        "µ÷ÊÔÓï¾ä
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Underlined     guifg=#3F3FFF          guibg=#000000           gui=UNDERLINE   "ĞèÒªÍ»³öµÄÎÄ±¾£¬HTML Á´½Ó
+	hi        Ignore         guifg=#7F7F7F          guibg=#000000           gui=NONE        "Áô¿Õ£¬±»Òş²Ø
+	hi        Error          guifg=#FFFF00          guibg=#FF0000           gui=NONE        "ÈÎºÎÓĞ´íµÄ¹¹Ôì
+	hi        Todo           guifg=#FFFFFF          guibg=#0000FF           gui=NONE        "ÈÎºÎĞèÒªÌØÊâ×¢ÒâµÄ²¿·Ö
+	"======================================================================================================================="
+else
+	"Console
+	"======================================================================================================================="
+	hi        Cursor         ctermfg=black            ctermbg=lightgreen        cterm=BOLD        "¹â±êËùÔÚµÄ×Ö·û
+	hi        CursorColumn                            ctermbg=black             cterm=BOLD        "¹â±êËùÔÚµÄÆÁÄ»ÁĞ
+	hi        CursorLine                              ctermbg=black             cterm=BOLD        "¹â±êËùÔÚµÄÆÁÄ»ĞĞ
+	hi        Directory      ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ä¿Â¼Ãû
+	hi        DiffAdd                                 ctermbg=lightgreen        cterm=BOLD        "diff: Ôö¼ÓµÄĞĞ
+	hi        DiffChange                              ctermbg=lightcyan         cterm=BOLD        "diff: ¸Ä±äµÄĞĞ
+	hi        DiffDelete                              ctermbg=lightcyan         cterm=BOLD        "diff: É¾³ıµÄĞĞ
+	hi        DiffText       ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "diff: ¸Ä±äĞĞÀïµÄ¸Ä¶¯ÎÄ±¾
+	hi        ErrorMsg       ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "ÃüÁîĞĞÉÏµÄ´íÎóĞÅÏ¢
+	hi        VertSplit      ctermfg=lightmagenta     ctermbg=lightblue         cterm=BOLD        "·ÖÀë´¹Ö±·Ö¸î´°¿ÚµÄÁĞ
+	hi        Folded         ctermfg=lightgrey        ctermbg=lightgreen        cterm=BOLD        "ÓÃÓÚ¹Ø±ÕµÄÕÛµşµÄĞĞ
+	hi        IncSearch      ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "'incsearch' ¸ßÁÁ
+	hi        LineNr         ctermfg=yellow           ctermbg=black             cterm=BOLD        "ÖÃÎ» number Ñ¡ÏîÊ±µÄĞĞºÅ
+	hi        MatchParen     ctermfg=lightred         ctermbg=black             cterm=BOLD        "Åä¶ÔµÄÀ¨ºÅ
+	hi        MatchParen     ctermfg=yellow           ctermbg=lightred          cterm=BOLD        "Åä¶ÔµÄÀ¨ºÅ
+	hi        ModeMsg        ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "showmode ÏûÏ¢(INSERT)
+	hi        MoreMsg        ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "|more-prompt|
+	hi        NonText        ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "´°¿ÚÎ²²¿µÄ'~'ºÍ '@'
+	hi        Normal         ctermfg=lightgrey        ctermbg=black             cterm=BOLD        "Õı³£ÄÚÈİ
+	hi        Pmenu          ctermfg=lightgrey        ctermbg=lightblue         cterm=BOLD        "µ¯³ö²Ëµ¥ÆÕÍ¨ÏîÄ¿
+	hi        PmenuSel       ctermfg=yellow           ctermbg=lightmagenta      cterm=BOLD        "µ¯³ö²Ëµ¥Ñ¡ÖĞÏîÄ¿
+	hi        PmenuSbar      ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "µ¯³ö²Ëµ¥¹ö¶¯Ìõ¡£
+	hi        PmenuThumb     ctermfg=black            ctermbg=lightgreen        cterm=BOLD        "µ¯³ö²Ëµ¥¹ö¶¯ÌõµÄÄ´Ö¸
+	hi        Question       ctermfg=yellow           ctermbg=black             cterm=BOLD        "ÌáÊ¾ºÍ yes/no ÎÊÌâ
+	hi        Search         ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "×î½üËÑË÷Ä£Ê½µÄ¸ßÁÁ
+	hi        SpecialKey     ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "ÌØÊâ¼ü£¬×Ö·ûºÍ'listchars'
+	hi        SpellBad       ctermfg=lightred         ctermbg=black             cterm=BOLD        "Æ´Ğ´¼ì²éÆ÷²»ÄÜÊ¶±ğµÄµ¥´Ê
+	hi        SpellCap       ctermfg=lightred         ctermbg=black             cterm=BOLD        "Ó¦¸Ã´óĞ´×ÖÄ¸¿ªÍ·µÄµ¥´Ê
+	hi        SpellLocal     ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "Ö»ÔÚÆäËüÇøÓòÊ¹ÓÃµÄµ¥´Ê
+	hi        SpellRare      ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "ºÜÉÙÊ¹ÓÃµÄµ¥´Ê
+	hi        StatusLine     ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "µ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+	hi        StatusLineNC   ctermfg=yellow           ctermbg=black             cterm=BOLD        "·Çµ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+	hi        TabLine        ctermfg=black            ctermbg=black             cterm=BOLD        "·Ç»î¶¯±êÇ©Ò³±êÇ©
+	hi        TabLineFill    ctermfg=black            ctermbg=lightgrey         cterm=BOLD        "Ã»ÓĞ±êÇ©µÄµØ·½
+	hi        TabLineSel     ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "»î¶¯±êÇ©Ò³±êÇ©
+	hi        Title          ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        ":set all µÈÊä³öµÄ±êÌâ
+	hi        Visual         ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "¿ÉÊÓÄ£Ê½µÄÑ¡ÔñÇø
+	hi        WarningMsg     ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "¾¯¸æÏûÏ¢
+	hi        WildMenu       ctermfg=lightgreen       ctermbg=lightblue         cterm=BOLD        "wildmenu²¹È«µÄµ±Ç°Æ¥Åä
+	"======================================================================================================================="
+	"Console group-name
+	"======================================================================================================================="
+	hi        Comment        ctermfg=yellow           ctermbg=black             cterm=BOLD        "ÈÎºÎ×¢ÊÍ
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Constant       ctermfg=brown            ctermbg=black             cterm=BOLD        "ÈÎºÎ³£Êı
+	hi        String         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ò»¸ö×Ö·û´®³£Êı: "×Ö·û´®"
+	hi        Character      ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ò»¸ö×Ö·û³£Êı: 'c'¡¢'\n'
+	hi        Number         ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "Ò»¸öÊı×Ö³£Êı: 234¡¢0xff
+	hi        Float          ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "Ò»¸ö¸¡µã³£Êı: 2.3e10
+	hi        Boolean        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ò»¸ö²¼¶ûĞÍ³£Êı: TRUE¡¢false
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Identifier     ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "ÈÎºÎ±äÁ¿Ãû
+	hi        Function       ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "º¯ÊıÃû (Ò²°üÀ¨: ÀàµÄ·½·¨Ãû)
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Statement      ctermfg=yellow           ctermbg=black             cterm=BOLD        "ÈÎºÎÓï¾ä
+	hi        Conditional    ctermfg=yellow           ctermbg=black             cterm=BOLD        "if¡¢then¡¢else¡¢endif¡¢switch
+	hi        Repeat         ctermfg=yellow           ctermbg=black             cterm=BOLD        "for¡¢do¡¢while µÈ
+	hi        Label          ctermfg=yellow           ctermbg=black             cterm=BOLD        "case¡¢default µÈ
+	hi        Operator       ctermfg=yellow           ctermbg=black             cterm=BOLD        ""sizeof"¡¢"+"¡¢"*" µÈ
+	hi        Keyword        ctermfg=yellow           ctermbg=black             cterm=BOLD        "ÈÎºÎÆäËü¹Ø¼ü×Ö
+	hi        Exception      ctermfg=lightred         ctermbg=black             cterm=BOLD        "try¡¢catch¡¢throw
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        PreProc        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Í¨ÓÃÔ¤´¦ÀíÃüÁî
+	hi        Include        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ô¤´¦ÀíÃüÁî #include
+	hi        Define         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "Ô¤´¦ÀíÃüÁî #define
+	hi        Macro          ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "µÈÍ¬ÓÚ Define
+	hi        PreCondit      ctermfg=lightred         ctermbg=black             cterm=BOLD        "Ô¤´¦ÀíÃüÁî #if¡¢#else¡¢#endif
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Type           ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "int¡¢long¡¢char µÈ
+	hi        StorageClass   ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "static¡¢register¡¢volatile µÈ
+	hi        Structure      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "struct¡¢union¡¢enum µÈ
+	hi        Typedef        ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "Ò»¸ö typedef
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Special        ctermfg=brown            ctermbg=black             cterm=BOLD        "ÈÎºÎÌØÊâ·ûºÅ
+	hi        SpecialChar    ctermfg=brown            ctermbg=black             cterm=BOLD        "³£ÊıÖĞµÄÌØÊâ×Ö·û
+	hi        Tag            ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "ÕâÀï¿ÉÒÔÊ¹ÓÃ CTRL-]
+	hi        Delimiter      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "ĞèÒª×¢ÒâµÄ×Ö·û
+	hi        SpecialComment ctermfg=lightred         ctermbg=black             cterm=BOLD        "×¢ÊÍÀïµÄÌØÊâ×Ö·û
+	hi        Debug          ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "µ÷ÊÔÓï¾ä
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Underlined     ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "ĞèÒªÍ»³öµÄÎÄ±¾£¬HTML Á´½Ó
+	hi        Ignore         ctermfg=darkgrey         ctermbg=black             cterm=NONE        "Áô¿Õ£¬±»Òş²Ø
+	hi        Error          ctermfg=yellow           ctermbg=lightred          cterm=BOLD        "ÈÎºÎÓĞ´íµÄ¹¹Ôì
+	hi        Todo           ctermfg=lightgrey        ctermbg=lightblue         cterm=BOLD        "ÈÎºÎĞèÒªÌØÊâ×¢ÒâµÄ²¿·Ö
+	"======================================================================================================================="
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Hightlight current line or column
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	set cursorline
+	"set cursorcolumn
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Omni menu colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	set completeopt=menu
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Display mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set display+=uhex
+set display+=lastline
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Menu hot key mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	"set winaltkeys=no
+	set winaltkeys=menu
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fileformats
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Define filetypes on different OS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	set fileformats=dos,unix
+elseif has("unix")
+	set fileformats=unix,dos
+elseif has("mac")
+	set fileformats=mac,dos,unix
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM userinterface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set 7 lines to the curors - when moving vertical..
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set so=7
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Show command
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set showcmd
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Turn on WiLd menu
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set wildmenu
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set ruler format string
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set ruler
+hi  User1  guifg=#FF0000  guibg=#0000FF  gui=NONE  ctermfg=yellow  ctermbg=lightblue  cterm=BOLD
+set rulerformat=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [¶¥¶Ë]
+
+"    f    »º³åÇøµÄÎÄ¼şÂ·¾¶£¬±£³ÖÊäÈëµÄĞÎÊ½»òÏà¶ÔÓÚµ±Ç°Ä¿Â¼¡£
+"    t    »º³åÇøµÄÎÄ¼şµÄÎÄ¼şÃû (Î²²¿)¡£
+"    m    ĞŞ¸Ä±êÖ¾Î»£¬ÎÄ±¾ÊÇ " [+]"£»Èô 'modifiable' ¹Ø±ÕÔòÊÇ " [-]"¡£
+"    r    Ö»¶Á±êÖ¾Î»£¬ÎÄ±¾ÊÇ " [RO]"¡£
+"    h    °ïÖú»º³åÇø±êÖ¾Î»£¬ÎÄ±¾ÊÇ " [help]"¡£
+"    w    Ô¤ÀÀ´°¿Ú±êÖ¾Î»£¬ÎÄ±¾ÊÇ " [Preview]"¡£
+"    y    »º³åÇøµÄÎÄ¼şÀàĞÍ£¬Èç " [vim]"¡£¼û 'filetype'¡£
+"         {½öµ±±àÒëÊ±¼ÓÈë |+autocmd| ÌØĞÔ²ÅÓĞĞ§}
+"    n    »º³åÇøºÅ¡£
+"    b    ¹â±êËùÔÚ×Ö½ÚµÄÖµ¡£
+"    o    ¹â±êËùÔÚ×Ö½ÚÔÚÎÄ¼şÖĞµÄ×Ö½ÚÆ«ÒÆ£¬µÚÒ»¸ö×Ö½ÚÎª 1¡£
+"    N    ´òÓ¡»úÒ³ºÅ¡£(Ö»ÓÃÓÚ 'printheader' Ñ¡Ïî¡£)
+"    l    ĞĞºÅ¡£
+"    L    »º³åÇøÀïµÄĞĞÊı¡£
+"    c    ÁĞºÅ¡£
+"    v    ĞéÄâÁĞºÅ¡£
+"    V    ĞéÄâÁĞºÅ£¬±íÊ¾Îª -{num}¡£Èç¹ûµÈÓÚ 'c' µÄÖµ£¬²»ÏÔÊ¾¡£
+"    p    ĞĞÊı¼ÆËãÔÚÎÄ¼şÎ»ÖÃµÄ°Ù·Ö±È£¬ÈçÍ¬ |CTRL-G| ¸ø³öµÄÄÇÑù¡£
+"    P    ÏÔÊ¾´°¿ÚÔÚÎÄ¼şÎ»ÖÃµÄ°Ù·Ö±È£¬ÀàËÆÓÚ 'ruler' ÃèÊöµÄ°Ù·Ö±È¡£³¤¶È×ÜÊÇÎª 3¡£
+"    a    ²ÎÊıÁĞ±í×´Ì¬£¬¾ÍÏñÈ±Ê¡±êÌâÀïµÄÄÇÑù¡£({current} of {max})
+"    {    ¼ÆËã '%{' ºÍ '}' Ö®¼äµÄ±í´ïÊ½£¬²¢·µ»ØÆä½á¹ûÌæ´ú¡£×¢Òâ ½áÊøµÄ '}'Ö®Ç°Ã»ÓĞ '%'¡£
+"    (    ÏîÄ¿×éµÄ¿ªÊ¼¡£¿ÉÒÔÓÃÀ´ÎªÄ³×éÏîÄ¿ÉèÖÃ¿í¶ÈºÍ¶ÔÆë¡£ºóÃæÄ³´¦±ØĞëÓĞ%)¡£
+"    )    ÏîÄ¿×éµÄ½áÊø¡£²»ÄÜÖ¸¶¨¿í¶ÈÓò¡£
+"    <    Èç¹ûĞĞ¹ı³¤£¬ÔÚÊ²Ã´µØ·½½Ø¶Ì¡£È±Ê¡ÊÇÔÚ¿ªÍ·¡£²»ÄÜÖ¸¶¨¿í¶ÈÓò¡£
+"    =    ×ó¶ÔÆëºÍÓÒ¶ÔÆëÏîÄ¿Ö®¼äµÄ·Ö¸îµã¡£²»ÄÜÖ¸¶¨¿í¶ÈÓò¡£
+"    *    ÉèÖÃ¸ßÁÁ×éÎª User{N}£¬ÆäÖĞµÄ {N} È¡×Ô minwid Óò£¬±ÈÈç %1*¡£ÓÃ %*
+"         »òÕß %*0 ¿ÉÒÔ»Ö¸´ normal ¸ßÁÁ¡£User{N} ºÍ StatusLine µÄÇø±ğÒ²»á
+"         Ó¦ÓÃµ½·Çµ±Ç°´°¿ÚµÄ×´Ì¬ĞĞÊ¹ÓÃµÄ StatusLineNC ÉÏ¡£
+"         Êı×Ö N ±ØĞë´Ó 1 µ½ 9¡£¼û |hl-User1..9|
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set the commandbar height
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cmdheight=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Show line number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set number
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Do not redraw, when running macros.. lazyredraw
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set lazyredraw
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Change buffer - without saving
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set hidden
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set backspace
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set backspace=eol,start,indent
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Backspace and cursor keys wrap to other line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set whichwrap+=<,>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ignore case when searching
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set ignorecase
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Increase search mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Report when anything is changed
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set report=0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set magic on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set magic
+"      magic   nomagic	Æ¥Åä ~
+"|/\s|	\s	\s	¿Õ°××Ö·û£» <Space> ºÍ <Tab>
+"|/\S|	\S	\S	·Ç¿Õ°××Ö·û£º\s Ö®·´
+"|/\d|	\d	\d	ÊıÎ»:			[0-9]
+"|/\D|	\D	\D	·ÇÊıÎ»:			[^0-9]
+"|/\x|	\x	\x	Ê®Áù½øÖÆÊıÎ»:		[0-9A-Fa-f]
+"|/\X|	\X	\X	·ÇÊ®Áù½øÖÆÊıÎ»:		[^0-9A-Fa-f]
+"|/\o|	\o	\o	°Ë½øÖÆÊıÎ»:		[0-7]
+"|/\O|	\O	\O	·Ç°Ë½øÖÆÊıÎ»:		[^0-7]
+"|/\w|	\w	\w	µ¥´Ê×Ö·û:		[0-9A-Za-z_]
+"|/\W|	\W	\W	·Çµ¥´Ê×Ö·û:		[^0-9A-Za-z_]
+"|/\h|	\h	\h	µ¥´ÊÊ××Ö·û:		[A-Za-z_]
+"|/\H|	\H	\H	µ¥´Ê·ÇÊ××Ö·û:		[^A-Za-z_]
+"|/\a|	\a	\a	Ó¢ÎÄ×ÖÄ¸×Ö·û:		[A-Za-z]
+"|/\A|	\A	\A	·ÇÓ¢ÎÄ×ÖÄ¸×Ö·û:		[^A-Za-z]
+"|/\l|	\l	\l	Ğ¡Ğ´×Ö·û:		[a-z]
+"|/\L|	\L	\L	·ÇĞ¡Ğ´×Ö·û:		[^a-z]
+"|/\u|	\u	\u	´óĞ´×Ö·û:		[A-Z]
+"|/\U|	\U	\U	·Ç´óĞ´×Ö·û		[^A-Z]
+"|/\_|	\_x	\_x	ÆäÖĞ x ¿ÉÒÔÊÇÒÔÉÏÈÎÒâÒ»¸ö×Ö·û£º¶ÔÓ¦×Ö·ûÀà¼ÓÉÏ»»ĞĞ
+"
+"|/\e|	\e	\e	<Esc>
+"|/\t|	\t	\t	<Tab>
+"|/\r|	\r	\r	<CR>
+"|/\b|	\b	\b	<BS>
+"|/\n|	\n	\n	ĞĞÎ²·û
+"|/~|	~	\~	ÉÏ´Î¸ø³öµÄÌæ´ú×Ö·û´®
+"
+"|/\%d|	\%d	\%d	Æ¥ÅäÓÃÊ®½øÖÆÖ¸¶¨µÄ×Ö·û (Èç \%d123)
+"|/\%x|	\%x	\%x	Æ¥ÅäÓÃÊ®Áù½øÖÆÖ¸¶¨µÄ×Ö·û (Èç \%x2a)
+"|/\%o|	\%o	\%o	Æ¥ÅäÓÃ°Ë½øÖÆÖ¸¶¨µÄ×Ö·û (Èç \%o040)
+"|/\%u|	\%u	\%u	Æ¥ÅäÖ¸¶¨µÄ¶à×Ö½Ú×Ö·û (Èç \%u20ac)
+"|/\%U|	\%U	\%U	Æ¥ÅäÖ¸¶¨µÄ¾Ş´ó¶à×Ö½Ú×Ö·û (Èç \%U12345678)
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => No sound on errors.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set noerrorbells
+set novisualbell
+set t_vb=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Show matching brackets
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set showmatch
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => How many tenths of a second to blink pairs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set matchtime=5
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Highlight search things
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set hlsearch
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Always hide the statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Format the statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi  User1  guifg=#FF0000  guibg=#0000FF  gui=NONE  ctermfg=yellow  ctermbg=lightblue  cterm=BOLD  "µ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+if has("win32")
+	set statusline=%<[%{getcwd()}\\%t][%{&ff}][%{&fenc}]%=
+	"like            [C:\boot.ini]    [dos]   [utf-8]
+	set statusline+=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+	"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [¶¥¶Ë]
+else
+	set statusline=%<[%{getcwd()}\/%t][%{&ff}][%{&fenc}]%=
+	"like            [/etc/passwd]    [unix]  [cp936]
+	set statusline+=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+	"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [¶¥¶Ë]
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Map space to /
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <space> /
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Smart way to move btw. windows
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <C-j> <C-W>j
+"map <C-k> <C-W>k
+"map <C-h> <C-W>h
+"map <C-l> <C-W>l
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Use the arrows to something usefull
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <up>    :echo<CR>
+"map <down>  :echo<CR>
+"map <left>  :echo<CR>
+"map <right> :echo<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tab Options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Show tabline and set tab label format
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	set showtabline=2
+	set guitablabel=[%N]\ %t\ %m
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"tab quick key
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+	map <right> :tabnew<CR>
+	map <left> :bdelete<CR>
+	map <A-1> 1gt
+	map <A-2> 2gt
+	map <A-3> 3gt
+	map <A-4> 4gt
+	map <A-5> 5gt
+	map <A-6> 6gt
+	map <A-7> 7gt
+	map <A-8> 8gt
+	map <A-9> 9gt
+	map <A-0> 10gt
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tab configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <leader>tn :tabnew %<CR>
+"map <leader>te :tabedit
+"map <leader>tc :tabclose<CR>
+"map <leader>tm :tabmove
+"if has("usetab")
+"	set switchbuf=usetab
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving fast to front, back and 2 sides ;)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"imap <m-$> <esc>$a
+"imap <m-0> <esc>0i
+"imap <D-$> <esc>$a
+"imap <D-0> <esc>0i
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Auto commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufEnter * :lcd %:p:h
+"autocmd BufEnter * :syntax sync fromstart
+"autocmd BufWritePost * filetype detect
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Leader commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set mapleader, default is '\'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let mapleader = "."
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fast make
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>mak :make -f *.mak<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fast editing of .vimrc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>rc :e $VIMRC<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Switch to current dir
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>cd :lcd %:p:h<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Source .vimrc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>so :source $VIMRC<CR>:e<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Desktop
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>dt :lcd $DESKTOP<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tmp file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>tmp :lcd $DESKTOP<CR>:e tmp.txt<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Explorer the current dir
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>ex :!explorer %:p:h<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command current dir
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>cmd :lcd %:p:h<CR>:!cmd<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Execute current file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>exe :!"%:p"<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Execute current file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>sh :!"%:p"<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Notepad current file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>np :!notepad %:p<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ultraedit current file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>ue :!ultraedit %:p<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Utility regular expression
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"%s/\(\[[^]]*$\)\n\(^[^[]*]$\)/\1\2/g
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General Abbrevs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => My information
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+iab xdate <c-r>=strftime("%Y/%m/%d")<CR>
+iab xtime <c-r>=strftime("%H:%M:%S")<CR>
+iab xname <c-r> Robin<CR>
+iab xmail <c-r> venturerobin@hotmail.com<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Editing mappings etc.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Move (also can Copy) some text using control
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"nmap <A-j> mz:move+1<CR>`z
+"nmap <A-k> mz:move-2<CR>`z
+"vmap <A-j> :move'>+1<CR>gv
+"vmap <A-k> :move'<-2<CR>gv
+
+"nmap <A-h> xhP
+"nmap <A-l> xp
+"vmap <A-h> xhPma`>mb`a<C-V>`bh
+"vmap <A-l> xpma`>mb`a<C-V>`bl
+
+"if has("mac")
+"	nmap <D-j> <A-j>
+"	nmap <D-k> <A-k>
+"	vmap <D-j> <A-j>
+"	vmap <D-k> <A-k>
+"	nmap <D-h> <A-h>
+"	nmap <D-l> <A-l>
+"	vmap <D-h> <A-h>
+"	vmap <D-l> <A-l>
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command-line config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Smart mappings on the command line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"cnoremap desktop cd $DESKTOP
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Bash like
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"cnoremap <C-A> <Home>
+"cnoremap <C-E> <End>
+"cnoremap <C-K> <C-U>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Buffer realted
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fast open a buffer by search for a name
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <c-q> :sbuffer
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Buffer - reverse everything ... :)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <key> ggVGg?
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files and backups
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set backup and temp directory
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+	"set nobackup
+	"set nowritebackup
+	"set noswapfile
+	set directory=$TMP
+	set backupdir=$TMP
+elseif has("unix")
+	set nobackup
+	"set nowritebackup
+	"set noswapfile
+	set directory=/tmp
+	set backupdir=/tmp
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Folding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Enable folding, I find it very useful
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set foldmethod=syntax
+"|fold-manual|	manual	    ÊÖ¶¯½¨Á¢ÕÛµş¡£
+"|fold-indent|	indent	    ÏàÍ¬Ëõ½ø¾àÀëµÄĞĞ¹¹³ÉÕÛµş¡£
+"|fold-expr|	expr	    'foldexpr' ¸ø³öÃ¿ĞĞµÄÕÛµş¼¶±ğ¡£
+"|fold-marker|	marker	    ±êÖ¾ÓÃÓÚÖ¸¶¨ÕÛµş¡£
+"|fold-syntax|	syntax	    Óï·¨¸ßÁÁÏîÄ¿Ö¸¶¨ÕÛµş¡£
+"|fold-diff|	diff	    Ã»ÓĞ¸Ä±äµÄÎÄ±¾¹¹³ÉÕÛµş¡£
+set foldenable
+set foldcolumn=2
+hi  FoldColumn  guifg=#00FF00  guibg=#000000  gui=NONE  ctermfg=green  ctermbg=black  cterm=BOLD  "µ±Ç°´°¿ÚµÄ×´Ì¬ĞĞ
+set foldlevel=9
+set foldmarker={{{,}}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set expandtab
+"set shiftwidth=2
+"set softtabstop=2
+"set tabstop=2
+"set backspace=2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => List options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set list
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set listchars=tab:>-,trail:-,precedes:<,extends:>
+"  eol:c	ĞĞÎ²ÏÔÊ¾µÄ×Ö·û¡£Èç¹ûºöÂÔ£¬ĞĞÎ²Ã»ÓĞ¶îÍâµÄ×Ö·û¡£
+"  tab:xy	ÓÃÓÚÏÔÊ¾ÖÆ±íµÄÁ½¸ö×Ö·û¡£Ê¹ÓÃµÚÒ»¸ö×Ö·ûÒ»´Î¡£È»ºóÖØ¸´µÚ¶ş¸ö×Ö·ûÀ´Ìî³äÖÆ±íÍ¨³£Ìî³äµÄÎ»ÖÃ¡£
+"  trail:c	ÍÏÎ²¿Õ°×ÏÔÊ¾µÄ×Ö·û¡£Èç¹ûºöÂÔ£¬ÍÏÎ²¿Õ°×ÏÔÊ¾Îª¿Õ¸ñ¡£
+"  extends:c	Èç¹û 'wrap' ¹Ø±Õ£¬¶øĞĞÔÚÆÁÄ»ÓÒ±ß½çÖ®ºó»¹Òª¼ÌĞøÊ±£¬×îºóÒ»ÁĞÏÔÊ¾µÄ×Ö·û¡£
+"  precedes:c	Èç¹û 'wrap' ¹Ø±Õ£¬¶øĞĞÔÚ¿ÉÊÓ·¶Î§µÚÒ»ÁĞÖ®Ç°»¹ÓĞÄÚÈİÊ±£¬µÚÒ»ÁĞÏÔÊ¾µÄ×Ö·û¡£
+"  nbsp:c	ÏÔÊ¾²»¿É¼ä¶Ï¿Õ¸ñµÄ×Ö·û (×Ö·û 0xA0£¬160)¡£Èç¹ûºöÂÔ£¬Áô³öÒ»¸ö¿Õ¸ñ¡£
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text format settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set smarttab
+set textwidth=0
+set nolinebreak
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Auto indent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set autoindent
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Smart indet
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set smartindent
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => C-style indenting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cindent
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Wrap lines
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set wrap
+set sidescroll=1
+set sidescrolloff=30
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"map <leader>sn ]s
+"map <leader>sp [s
+"map <leader>sa zg
+"map <leader>s? z=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Filetype generic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType,BufRead,BufWrite *.sap,*.DEF          setf vb
+autocmd FileType,BufRead,BufWrite *.log,*.LOG          setf awk
+autocmd FileType,BufRead,BufWrite *.ec,*.EC            setf esqlc
+autocmd FileType,BufRead,BufWrite *.pc,*.PC            setf esqlc
+autocmd FileType,BufRead,BufWrite *.xc,*.XC            setf esqlc
+autocmd FileType,BufRead,BufWrite *.sqc,*.SQC          setf esqlc
+autocmd FileType,BufRead,BufWrite *.sah                setf c
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => HTML entities - used by xml edit plugin
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let xml_use_xhtml = 1
+"let xml_no_auto_nesting = 1
+
+"»¨À¨ºÅ×Ô¶¯²¹È«
+:inoremap { <c-r>=ClsoeBrace()<CR>
+":inoremap } <c-r>=ClosePair('}')<CR>
+":inoremap ;; <ESC>A;<CR>
+
+function ClsoeBrace()
+   if getline('.')[col('.') - 2] == '='
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 3] == '='
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 1] == '{'
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 2] == '{'
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 2] == ','
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 3] == ','
+      return "{}\<ESC>i"
+   else
+      return "{\<ENTER>}\<ESC>O"
+   endif
+endf
+"»¨À¨ºÅ×Ô¶¯²¹È«
+
+"½ûÖ¹Éú³ÉÁÙÊ±ÎÄ¼ş
+set nobackup
+"½ûÖ¹Éú³ÉÁÙÊ±ÎÄ¼ş
+
+set tags+=/home/unpv22e/tags
+set tags+=/home/NCBank_sc/src/tags
