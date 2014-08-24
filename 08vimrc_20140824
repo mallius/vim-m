@@ -1,0 +1,268 @@
+"C语言自动缩进
+set cindent
+"C语言自动缩进
+
+"花括号自动补全
+:inoremap { <c-r>=ClsoeBrace()<CR>
+":inoremap } <c-r>=ClosePair('}')<CR>
+":inoremap ;; <ESC>A;<CR>
+
+function ClsoeBrace()
+   if getline('.')[col('.') - 2] == '='
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 3] == '='
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 1] == '{'
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 2] == '{'
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 2] == ','
+      return "{}\<ESC>i"
+   elseif getline('.')[col('.') - 3] == ','
+      return "{}\<ESC>i"
+   else
+      return "{\<ENTER>}\<ESC>O"
+   endif
+endf
+"花括号自动补全
+
+"让vim记忆上次编辑的位置
+autocmd BufReadPost *
+            \ if line("'\"")>0&&line("'\"")<=line("$") |
+            \    exe "normal g'\"" |
+            \ endif
+"让vim记忆上次编辑的位置
+
+
+"解决vim中文乱码
+set fileencodings=utf-8,gb2312,gbk,gb18030
+set termencoding=utf-8 
+set encoding=prc
+"解决vim中文乱码
+
+set nu
+syntax on
+
+"set guifont=Courier
+
+
+
+" 总是显示状态行
+set laststatus=2
+
+
+" 命令行（在状态行下）的高度，默认为1，这里是2
+set cmdheight=1
+
+
+"颜色方案
+"colorscheme ron
+
+
+"显示中文帮助
+if version >= 603
+	set helplang=cn
+	set encoding=utf-8
+endif
+
+"禁止生成临时文件
+set nobackup
+
+"搜索逐字符高亮
+set hlsearch
+set incsearch
+
+
+
+"为C程序提供自动缩进
+"set smartindent
+
+
+
+"for ctags
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"for ctags 
+
+
+"onmicppcompete插件，不用2014-03-27-22:06
+"set nocp    
+"filetype plugin on
+
+
+"自动添加指定目录下的tags文件
+
+
+
+"自动添加指定目录下的tags文件
+
+
+"map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR> :TlistUpdate<CR>
+"imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR> :TlistUpdate<CR>
+
+
+"自动添加cscope.out数据库到vim
+":cs add /work/system/linux-2.6.22.6/cscope.out /usr/bin/vim
+"自动添加cscope.out数据库到vim
+
+"关闭代码补全预览窗口
+set completeopt=longest,menu
+"关闭代码补全预览窗口
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set ruler
+"hi  User1  guifg=#FF0000  guibg=#0000FF  gui=NONE  ctermfg=yellow  ctermbg=lightblue  cterm=BOLD
+"set rulerformat=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [顶端]
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" => Format the statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"hi  User1  guifg=#FF0000  guibg=#0000FF  gui=NONE  ctermfg=yellow  ctermbg=lightblue cterm=BOLD  "当前窗口的状态行
+if has("win32")
+	"set statusline=%<[%{getcwd()}\\%t][%{&ff}][%{&fenc}]%=
+	"like            [C:\boot.ini]    [dos]   [utf-8]
+	"set statusline+=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+	"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [顶端]
+else
+	set statusline=%<[%{getcwd()}\/%t][%{&ff}][%{&fenc}]%=
+	"like            [/etc/passwd]    [unix]  [cp936]
+	set statusline+=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+	"like               [-]         [RO]        [1]      [HELP]   [0x20]     [1/100]      [1-8]       [顶端]
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set color schema
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+highlight clear
+
+if has("gui_running")
+else
+	hi        IncSearch      ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "'incsearch' 高亮
+	hi        LineNr         ctermfg=yellow           ctermbg=black             cterm=BOLD        "置位 number 选项时的行号
+	hi        MatchParen     ctermfg=lightred         ctermbg=black             cterm=BOLD        "配对的括号
+	hi        MatchParen     ctermfg=yellow           ctermbg=lightred          cterm=BOLD        "配对的括号
+	hi        Search         ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "最近搜索模式的高亮
+	hi        StatusLine     ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "当前窗口的状态行
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Constant       ctermfg=brown            ctermbg=black             cterm=BOLD        "任何常数
+	hi        String         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个字符串常数: "字符串"
+	hi        Character      ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个字符常数: 'c'、'\n'
+	hi        Number         ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "一个数字常数: 234、0xff
+	hi        Float          ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "一个浮点常数: 2.3e10
+	hi        Boolean        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个布尔型常数: TRUE、false
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Identifier     ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "任何变量名
+	hi        Function       ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "函数名 (也包括: 类的方法名)
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Statement      ctermfg=yellow           ctermbg=black             cterm=BOLD        "任何语句
+	hi        Conditional    ctermfg=yellow           ctermbg=black             cterm=BOLD        "if、then、else、endif、switch
+	hi        Repeat         ctermfg=yellow           ctermbg=black             cterm=BOLD        "for、do、while 等
+	hi        Label          ctermfg=yellow           ctermbg=black             cterm=BOLD        "case、default 等
+	hi        Operator       ctermfg=yellow           ctermbg=black             cterm=BOLD        ""sizeof"、"+"、"*" 等
+	hi        Keyword        ctermfg=yellow           ctermbg=black             cterm=BOLD        "任何其它关键字
+	hi        Exception      ctermfg=lightred         ctermbg=black             cterm=BOLD        "try、catch、throw
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        PreProc        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "通用预处理命令
+	hi        Include        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "预处理命令 #include
+	hi        Define         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "预处理命令 #define
+	hi        Macro          ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "等同于 Define
+	hi        PreCondit      ctermfg=lightred         ctermbg=black             cterm=BOLD        "预处理命令 #if、#else、#endif
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Type           ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "int、long、char 等
+	"hi        StorageClass   ctermfg=yellow     ctermbg=black             cterm=BOLD        "static、register、volatile 等
+	hi        Structure      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "struct、union、enum 等
+	hi        Typedef        ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "一个 typedef
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Special        ctermfg=brown            ctermbg=black             cterm=BOLD        "任何特殊符号
+	hi        SpecialChar    ctermfg=brown            ctermbg=black             cterm=BOLD        "常数中的特殊字符
+	hi        Tag            ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "这里可以使用 CTRL-]
+	hi        Delimiter      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "需要注意的字符
+	hi        SpecialComment ctermfg=lightred         ctermbg=black             cterm=BOLD        "注释里的特殊字符
+	hi        Debug          ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "调试语句
+endif
+
+"""""""查找当球按选中的文本（终极版）"""""""""""""""""""""""
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+function! s:VSetSearch()
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V'  .  substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+"""""""查找当球按选中的文本（终极版）"""""""""""""""""""""""
+"""""""《Vim实用技巧》Page 200""""""""""""""""""""""""""""""
+
+
+""""""轻松展开当前文件所在的目录"""""""""""""""""""""""""""""""""
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
+""""""轻松展开当前文件所在的目录"""""""""""""""""""""""""""""""""
+"""""""《Vim实用技巧》Page 89""""""""""""""""""""""""""""""
+
+""""""<C-l>清除高亮匹配"""""""""""""""""""""""""
+nnoremap <silent> <C-i>  :<C-u>nohlsearch<CR><C-l>
+""""""<C-l>清除高亮匹配"""""""""""""""""""""""""
+
+"set nocompatible
+"filetype plugin on
+"runtime macros/matchit.vim
+
+"---------------------
+"Tap List
+"---------------------
+filetype on
+nmap <F7> :TlistToggle<CR>
+let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+let Tlist_Inc_Winwidth = 0
+let Tlist_Exit_OnlyWindow = 0
+
+let Tlist_Auto_Open = 0
+let Tlist_Use_Right_Window = 1
+
+"--------------------
+"Source Explorer
+"-------------------
+nmap <F8> :SrcExplToggle<CR>
+nmap <C-H> <C-W>h
+nmap <C-J> <C-W>j
+nmap <C-K> <C-W>k
+nmap <C-L> <C-W>l
+
+let g:SrcExpl_winHeight = 8
+let g:SrcExpl_refreshTime = 100
+let g:SrcExpl_jumpKey = "<ENTER>"
+let g:SrcExpl_gobackKey = "<SPACE>"
+let g:SrcExpl_isUpdateTags = 0
+
+
+"----------------------
+"Nerd Tree
+"----------------------
+let NERDTreeWinPos = "left"
+nmap <F9> :NERDTreeToggle<CR>
+
+
+
+
+
+
+"vim下使用find filename 直接打开文件
+"set path+=/home/kernel-m/**
+"set path+=/home/cbs_code/**
+set path+=/home/linux-3.16.1/**
+
+
+"用脚本ctags.sh新追加的tags
+set tags+=/work/system/linux-2.6.22.6/tags
+set tags+=/home/user/kernel-0.11/tags
+set tags+=/home/kernel-m/kernel-0.11/tags
+set tags+=/home/cbs_code/tags
+set tags+=/home/sockets/tags
+set tags+=/home/unp/01unpv13e/tags
+set tags+=/home/linux-3.16.1/tags
