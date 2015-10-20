@@ -1,0 +1,158 @@
+"oracle pc文件设置颜色
+autocmd BufEnter *.pc set filetype=esqlc
+
+"颜色主题
+"colorscheme molokai
+colorscheme ron
+
+"C语言自动缩进
+set cindent
+set smartindent
+"C语言自动缩进
+
+set mouse=a
+
+"让vim记忆上次编辑的位置
+autocmd BufReadPost *
+            \ if line("'\"")>0&&line("'\"")<=line("$") |
+            \    exe "normal g'\"" |
+            \ endif
+"让vim记忆上次编辑的位置
+
+
+"解决vim中文乱码
+set fileencodings=utf-8,gb2312,gbk,gb18030
+set termencoding=utf-8 
+set encoding=prc
+"解决vim中文乱码
+
+set nu
+syntax on
+
+
+" 总是显示状态行
+set laststatus=2
+
+
+" 命令行（在状态行下）的高度，默认为1，这里是2
+set cmdheight=1
+
+"显示中文帮助
+if version >= 603
+	set helplang=cn
+	set encoding=utf-8
+endif
+
+"禁止生成临时文件
+set nobackup
+
+"搜索逐字符高亮
+set hlsearch
+set incsearch
+
+"for ctags
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"for ctags 
+
+
+"onmicppcompete插件，不用2014-03-27-22:06
+"set nocp    
+filetype plugin on
+
+
+"关闭代码补全预览窗口
+set completeopt=longest,menu
+"关闭代码补全预览窗口
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" => Format the statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32")
+else
+	set statusline=%<[%{getcwd()}\/%t][%{&ff}][%{&fenc}]%=
+	set statusline+=%64(%3(%1*%m%*%)%4(%1*%r%*%)%4([%n]%)%8([%Y]%)%8([0x%B]%)%15([%l/%L]%)%11([%c%V]%)%6([%P]%)%)
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Set color schema
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+highlight clear
+
+if has("gui_running")
+else
+	hi        IncSearch      ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "'incsearch' 高亮
+	hi        LineNr         ctermfg=yellow           ctermbg=black             cterm=BOLD        "置位 number 选项时的行号
+"	hi        MatchParen     ctermfg=lightred         ctermbg=black             cterm=BOLD        "配对的括号
+"	hi        MatchParen     ctermfg=yellow           ctermbg=lightred          cterm=BOLD        "配对的括号
+	hi        Search         ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "最近搜索模式的高亮
+	hi        StatusLine     ctermfg=yellow           ctermbg=lightblue         cterm=BOLD        "当前窗口的状态行
+	"-----------------------------------------------------------------------------------------------------------------------"
+"	hi        Constant       ctermfg=brown            ctermbg=black             cterm=BOLD        "任何常数
+	hi        String         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个字符串常数: "字符串"
+	hi        Character      ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个字符常数: 'c'、'\n'
+	hi        Number         ctermfg=lightred       ctermbg=black             cterm=BOLD        "一个数字常数: 234、0xff
+"	hi        Float          ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "一个浮点常数: 2.3e10
+	hi        Boolean        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "一个布尔型常数: TRUE、false
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Identifier     ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "任何变量名
+	hi        Function       ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "函数名 (也包括: 类的方法名)
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Statement      ctermfg=yellow           ctermbg=black             cterm=BOLD        "任何语句
+	hi        Conditional    ctermfg=yellow           ctermbg=black             cterm=BOLD        "if、then、else、endif、switch
+	hi        Repeat         ctermfg=yellow           ctermbg=black             cterm=BOLD        "for、do、while 等
+	hi        Label          ctermfg=yellow           ctermbg=black             cterm=BOLD        "case、default 等
+	hi        Operator       ctermfg=yellow           ctermbg=black             cterm=BOLD        ""sizeof"、"+"、"*" 等
+	hi        Keyword        ctermfg=yellow           ctermbg=black             cterm=BOLD        "任何其它关键字
+	hi        Exception      ctermfg=lightred         ctermbg=black             cterm=BOLD        "try、catch、throw
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        PreProc        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "通用预处理命令
+	hi        Include        ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "预处理命令 #include
+	hi        Define         ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "预处理命令 #define
+	hi        Macro          ctermfg=lightmagenta     ctermbg=black             cterm=BOLD        "等同于 Define
+	hi        PreCondit      ctermfg=lightred         ctermbg=black             cterm=BOLD        "预处理命令 #if、#else、#endif
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Type           ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "int、long、char 等
+	"hi        StorageClass   ctermfg=yellow     ctermbg=black             cterm=BOLD        "static、register、volatile 等
+	hi        Structure      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "struct、union、enum 等
+	hi        Typedef        ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "一个 typedef
+	"-----------------------------------------------------------------------------------------------------------------------"
+	hi        Special        ctermfg=brown            ctermbg=black             cterm=BOLD        "任何特殊符号
+	hi        SpecialChar    ctermfg=brown            ctermbg=black             cterm=BOLD        "常数中的特殊字符
+	hi        Tag            ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "这里可以使用 CTRL-]
+	hi        Delimiter      ctermfg=lightgreen       ctermbg=black             cterm=BOLD        "需要注意的字符
+	hi        SpecialComment ctermfg=lightred         ctermbg=black             cterm=BOLD        "注释里的特殊字符
+	hi        Debug          ctermfg=lightcyan        ctermbg=black             cterm=BOLD        "调试语句
+endif
+
+"""使用生成的ctags
+"set tags+=/home/c/tengine-2.1.1/tags
+"""使用生成的ctags
+
+
+"""1.使用SuperTab
+let g:SuperTabDefaultCompletionType="context"
+"""1.使用SuperTab
+
+
+"""2. 使用Vundle
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'scrooloose/syntastic'
+
+call vundle#end()
+filetype plugin indent on
+"""2. 使用Vundle
+
+
+
